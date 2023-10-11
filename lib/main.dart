@@ -17,8 +17,7 @@ class MyApp extends StatelessWidget {
         '/orderconfirmation': (context) => OrderConfirmationPage(),
         '/chatbot': (context) => ChatBotPage(),
         '/profile': (context) => ProfilePage(),
-        
-       },
+      },
     );
   }
 }
@@ -27,8 +26,6 @@ class BookSelectionPage extends StatefulWidget {
   @override
   _BookSelectionPageState createState() => _BookSelectionPageState();
 }
-
-
 
 class LoginPage extends StatefulWidget {
   @override
@@ -103,7 +100,11 @@ class Book {
   String imageUrl;
   bool isAddedToCart;
 
-  Book({required this.title, required this.author, required this.imageUrl, this.isAddedToCart = false});
+  Book(
+      {required this.title,
+      required this.author,
+      required this.imageUrl,
+      this.isAddedToCart = false});
 }
 
 // class BookSelectionPage extends StatefulWidget {
@@ -139,9 +140,11 @@ class _BookSelectionPageState extends State<BookSelectionPage> {
       if (!filteredBooks[index].isAddedToCart && cart.length < 6) {
         filteredBooks[index].isAddedToCart = true;
         cart.add(filteredBooks[index]);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${filteredBooks[index].title} added to cart.')));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('${filteredBooks[index].title} added to cart.')));
       } else if (cart.length >= 6) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('You can only book up to 6 books.')));
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('You can only book up to 6 books.')));
       }
     });
   }
@@ -155,7 +158,8 @@ class _BookSelectionPageState extends State<BookSelectionPage> {
       _generateOTP();
       Navigator.pushNamed(context, '/otp', arguments: _otp);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please fill in all the fields.')));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please fill in all the fields.')));
     }
   }
 
@@ -169,7 +173,8 @@ class _BookSelectionPageState extends State<BookSelectionPage> {
     setState(() {
       filteredBooks[index].isAddedToCart = false;
       cart.remove(filteredBooks[index]);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${filteredBooks[index].title} removed from cart.')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('${filteredBooks[index].title} removed from cart.')));
     });
   }
 
@@ -222,7 +227,8 @@ class _BookSelectionPageState extends State<BookSelectionPage> {
               ),
             ),
           ),
-          const Text('You can book up to 6 books.', style: TextStyle(color: Colors.red)),
+          const Text('You can book up to 6 books.',
+              style: TextStyle(color: Colors.red)),
           Expanded(
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -343,21 +349,16 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
   }
 
   void _verifyOTP(BuildContext context) {
+    String userOTP = _otpController.text;
 
-  String userOTP = _otpController.text;
+    String correctOTP = '123456';
 
-  
-  String correctOTP = '123456';
-
-  
-  if (userOTP == correctOTP) {
-  
-    Navigator.pushReplacementNamed(context, '/orderconfirmation');
-  } else {
-    
-    Navigator.pushReplacementNamed(context, '/orderconfirmation');
+    if (userOTP == correctOTP) {
+      Navigator.pushReplacementNamed(context, '/orderconfirmation');
+    } else {
+      Navigator.pushReplacementNamed(context, '/orderconfirmation');
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -425,7 +426,8 @@ class CartPage extends StatelessWidget {
           return ListTile(
             title: Text(cart[index].title),
             subtitle: Text(cart[index].author),
-            leading: Image.asset(cart[index].imageUrl, width: 50, height: 50, fit: BoxFit.cover),
+            leading: Image.asset(cart[index].imageUrl,
+                width: 50, height: 50, fit: BoxFit.cover),
           );
         },
       ),
