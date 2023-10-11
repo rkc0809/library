@@ -1,43 +1,47 @@
+import 'package:fluto/ChatBotPage.dart';
 import 'package:fluto/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Login & Book Store',
       initialRoute: '/',
       routes: {
-        '/': (context) => LoginPage(),
-        '/bookstore': (context) => BookSelectionPage(),
-        '/otp': (context) => OTPVerificationPage(),
-        '/orderconfirmation': (context) => OrderConfirmationPage(),
-        '/chatbot': (context) => ChatBotPage(),
+        '/': (context) => const LoginPage(),
+        '/bookstore': (context) => const BookSelectionPage(),
+        '/otp': (context) => const OTPVerificationPage(),
+        '/orderconfirmation': (context) => const OrderConfirmationPage(),
         '/profile': (context) => ProfilePage(),
-        
-       },
+        '/chatbot': (context) => const ChatScreen(),
+      },
     );
   }
 }
 
 class BookSelectionPage extends StatefulWidget {
+  const BookSelectionPage({super.key});
+
   @override
   _BookSelectionPageState createState() => _BookSelectionPageState();
 }
 
-
-
 class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   String _errorMessage = '';
 
   void _login(BuildContext context) {
@@ -103,7 +107,11 @@ class Book {
   String imageUrl;
   bool isAddedToCart;
 
-  Book({required this.title, required this.author, required this.imageUrl, this.isAddedToCart = false});
+  Book(
+      {required this.title,
+      required this.author,
+      required this.imageUrl,
+      this.isAddedToCart = false});
 }
 
 // class BookSelectionPage extends StatefulWidget {
@@ -113,9 +121,9 @@ class Book {
 
 class _BookSelectionPageState extends State<BookSelectionPage> {
   final TextEditingController _searchController = TextEditingController();
-  TextEditingController _mobileController = TextEditingController();
+  final TextEditingController _mobileController = TextEditingController();
   final TextEditingController _yearController = TextEditingController();
-  TextEditingController _branchController = TextEditingController();
+  final TextEditingController _branchController = TextEditingController();
 
   List<Book> books = [
     Book(title: 'Book 1', author: 'Author 1', imageUrl: 'assets/book1.jpg'),
@@ -139,9 +147,11 @@ class _BookSelectionPageState extends State<BookSelectionPage> {
       if (!filteredBooks[index].isAddedToCart && cart.length < 6) {
         filteredBooks[index].isAddedToCart = true;
         cart.add(filteredBooks[index]);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${filteredBooks[index].title} added to cart.')));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('${filteredBooks[index].title} added to cart.')));
       } else if (cart.length >= 6) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('You can only book up to 6 books.')));
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('You can only book up to 6 books.')));
       }
     });
   }
@@ -155,7 +165,8 @@ class _BookSelectionPageState extends State<BookSelectionPage> {
       _generateOTP();
       Navigator.pushNamed(context, '/otp', arguments: _otp);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please fill in all the fields.')));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please fill in all the fields.')));
     }
   }
 
@@ -169,7 +180,8 @@ class _BookSelectionPageState extends State<BookSelectionPage> {
     setState(() {
       filteredBooks[index].isAddedToCart = false;
       cart.remove(filteredBooks[index]);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${filteredBooks[index].title} removed from cart.')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('${filteredBooks[index].title} removed from cart.')));
     });
   }
 
@@ -204,7 +216,8 @@ class _BookSelectionPageState extends State<BookSelectionPage> {
           IconButton(
             icon: const Icon(Icons.chat),
             onPressed: () {
-              Navigator.pushNamed(context, '/chatbot', arguments: cart);
+              // redirect to ChatBotPage.dart file
+              Navigator.pushNamed(context, '/chatbot');
             },
           ),
         ],
@@ -222,7 +235,8 @@ class _BookSelectionPageState extends State<BookSelectionPage> {
               ),
             ),
           ),
-          const Text('You can book up to 6 books.', style: TextStyle(color: Colors.red)),
+          const Text('You can book up to 6 books.',
+              style: TextStyle(color: Colors.red)),
           Expanded(
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -328,12 +342,14 @@ class _BookSelectionPageState extends State<BookSelectionPage> {
 }
 
 class OTPVerificationPage extends StatefulWidget {
+  const OTPVerificationPage({super.key});
+
   @override
   _OTPVerificationPageState createState() => _OTPVerificationPageState();
 }
 
 class _OTPVerificationPageState extends State<OTPVerificationPage> {
-  TextEditingController _otpController = TextEditingController();
+  final TextEditingController _otpController = TextEditingController();
   String? _correctOTP;
 
   @override
@@ -343,21 +359,16 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
   }
 
   void _verifyOTP(BuildContext context) {
+    String userOTP = _otpController.text;
 
-  String userOTP = _otpController.text;
+    String correctOTP = '123456';
 
-  
-  String correctOTP = '123456';
-
-  
-  if (userOTP == correctOTP) {
-  
-    Navigator.pushReplacementNamed(context, '/orderconfirmation');
-  } else {
-    
-    Navigator.pushReplacementNamed(context, '/orderconfirmation');
+    if (userOTP == correctOTP) {
+      Navigator.pushReplacementNamed(context, '/orderconfirmation');
+    } else {
+      Navigator.pushReplacementNamed(context, '/orderconfirmation');
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -392,6 +403,8 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
 }
 
 class OrderConfirmationPage extends StatelessWidget {
+  const OrderConfirmationPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -411,7 +424,7 @@ class OrderConfirmationPage extends StatelessWidget {
 class CartPage extends StatelessWidget {
   final List<Book> cart;
 
-  CartPage({required this.cart});
+  CartPage({super.key, required this.cart});
 
   @override
   Widget build(BuildContext context) {
@@ -425,99 +438,11 @@ class CartPage extends StatelessWidget {
           return ListTile(
             title: Text(cart[index].title),
             subtitle: Text(cart[index].author),
-            leading: Image.asset(cart[index].imageUrl, width: 50, height: 50, fit: BoxFit.cover),
+            leading: Image.asset(cart[index].imageUrl,
+                width: 50, height: 50, fit: BoxFit.cover),
           );
         },
       ),
     );
-  }
-}
-
-class ChatBotPage extends StatefulWidget {
-  @override
-  _ChatBotPageState createState() => _ChatBotPageState();
-}
-
-class _ChatBotPageState extends State<ChatBotPage> {
-  final TextEditingController _messageController = TextEditingController();
-  late List<Book> cart;
-  final ChatService _chatService = ChatService('YOUR_PROJECT_ID');
-
-  List<String> _chatHistory = [];
-
-  @override
-  void initState() {
-    super.initState();
-    cart = [];
-  }
-
-  void _sendMessage() async {
-    String message = _messageController.text;
-    _messageController.clear();
-
-    setState(() {
-      _chatHistory.add('You: $message');
-    });
-
-    String response = await _chatService.sendMessage(message);
-
-    setState(() {
-      _chatHistory.add('Bot: $response');
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('ChatBot'),
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: _chatHistory.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(_chatHistory[index]),
-                );
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _messageController,
-                    decoration: const InputDecoration(
-                      hintText: 'Enter your message...',
-                    ),
-                  ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.send),
-                  onPressed: _sendMessage,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class ChatService {
-  final String projectID;
-
-  ChatService(this.projectID);
-
-  Future<String> sendMessage(String message) async {
-    // Implement your logic to send message to Dialogflow API and get response
-    // This can be done using HTTP requests or a suitable library
-    // Return the response from the Dialogflow API
-    return 'Sample response from Dialogflow'; // Replace with actual response from Dialogflow
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:chat_gpt_flutter/chat_gpt_flutter.dart';
+import 'package:fluto/api_key.dart';
 import 'package:fluto/model/question_answer.dart';
 import 'package:fluto/theme.dart';
 import 'package:fluto/view/components/chatgpt_answer_widget.dart';
@@ -53,7 +54,7 @@ class _ChatScreenState extends State<ChatScreen> {
         shadowColor: Colors.white12,
         centerTitle: true,
         title: Text(
-          "Library ChatBot",
+          "ChatGPT",
           style: kWhiteText.copyWith(fontSize: 20, fontWeight: kSemiBold),
         ),
         backgroundColor: kBg300Color,
@@ -157,8 +158,7 @@ class _ChatScreenState extends State<ChatScreen> {
       });
     } catch (e) {
       debugPrint("Error: $e");
-      setState(() => questionAnswers.last.answer.write(
-          "The api you used may be expired ! There was an error, please try again. Thank you!"));
+      setState(() => questionAnswers.last.answer.write("error"));
     }
   }
 }
