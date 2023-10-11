@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "name": "Flutter (m3.dart)",
+            "type": "dart",
+            "request": "launch",
+            "program": "m3.dart"
+        }
+    ]
+}
