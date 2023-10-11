@@ -1,18 +1,29 @@
-import 'package:flutter/material.dart';
+class User {
+  String name;
+  String profilePic;
+  List<Book> booksTaken;
 
-class ProfilePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Profile'),
-      ),
-      body: Center(
-        child: Text(
-          'User Profile Content Goes Here',
-          style: TextStyle(fontSize: 24),
-        ),
-      ),
-    );
-  }
+  User({
+    required this.name,
+    required this.profilePic,
+    required this.booksTaken,
+  });
+}
+
+class Book {
+  String title;
+  String author;
+  String imageUrl;
+  bool isAddedToCart;
+  DateTime takenDate;
+  DateTime submissionDate;
+
+  Book({
+    required this.title,
+    required this.author,
+    required this.imageUrl,
+    required this.takenDate,
+    required this.submissionDate,
+    this.isAddedToCart = false,
+  });
 }

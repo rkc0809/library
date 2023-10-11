@@ -1,47 +1,41 @@
+import 'package:fluto/profile_screen.dart';
 import 'package:fluto/ChatBotPage.dart';
-import 'package:fluto/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
-void main() => runApp(const MyApp());
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Login & Book Store',
       initialRoute: '/',
       routes: {
-        '/': (context) => const LoginPage(),
-        '/bookstore': (context) => const BookSelectionPage(),
-        '/otp': (context) => const OTPVerificationPage(),
-        '/orderconfirmation': (context) => const OrderConfirmationPage(),
-        '/profile': (context) => ProfilePage(),
+        '/': (context) => LoginPage(),
+        '/bookstore': (context) => BookSelectionPage(),
+        '/otp': (context) => OTPVerificationPage(),
+        '/orderconfirmation': (context) => OrderConfirmationPage(),
         '/chatbot': (context) => const ChatScreen(),
+        '/profile': (context) => const ProfileScreen(),
       },
     );
   }
 }
 
 class BookSelectionPage extends StatefulWidget {
-  const BookSelectionPage({super.key});
-
   @override
   _BookSelectionPageState createState() => _BookSelectionPageState();
 }
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
-
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
   String _errorMessage = '';
 
   void _login(BuildContext context) {
@@ -121,9 +115,9 @@ class Book {
 
 class _BookSelectionPageState extends State<BookSelectionPage> {
   final TextEditingController _searchController = TextEditingController();
-  final TextEditingController _mobileController = TextEditingController();
+  TextEditingController _mobileController = TextEditingController();
   final TextEditingController _yearController = TextEditingController();
-  final TextEditingController _branchController = TextEditingController();
+  TextEditingController _branchController = TextEditingController();
 
   List<Book> books = [
     Book(title: 'Book 1', author: 'Author 1', imageUrl: 'assets/book1.jpg'),
@@ -216,10 +210,16 @@ class _BookSelectionPageState extends State<BookSelectionPage> {
           IconButton(
             icon: const Icon(Icons.chat),
             onPressed: () {
-              // redirect to ChatBotPage.dart file
               Navigator.pushNamed(context, '/chatbot');
             },
           ),
+
+          IconButton(
+            icon: const Icon(Icons.person_off_outlined),
+            onPressed: (){
+              Navigator.pushNamed(context, '/profile');
+            },
+          )
         ],
       ),
       body: Column(
@@ -342,14 +342,12 @@ class _BookSelectionPageState extends State<BookSelectionPage> {
 }
 
 class OTPVerificationPage extends StatefulWidget {
-  const OTPVerificationPage({super.key});
-
   @override
   _OTPVerificationPageState createState() => _OTPVerificationPageState();
 }
 
 class _OTPVerificationPageState extends State<OTPVerificationPage> {
-  final TextEditingController _otpController = TextEditingController();
+  TextEditingController _otpController = TextEditingController();
   String? _correctOTP;
 
   @override
@@ -403,8 +401,6 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
 }
 
 class OrderConfirmationPage extends StatelessWidget {
-  const OrderConfirmationPage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -424,7 +420,7 @@ class OrderConfirmationPage extends StatelessWidget {
 class CartPage extends StatelessWidget {
   final List<Book> cart;
 
-  CartPage({super.key, required this.cart});
+  CartPage({required this.cart});
 
   @override
   Widget build(BuildContext context) {
