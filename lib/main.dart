@@ -3,6 +3,7 @@ import 'package:fluto/ChatBotPage.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
         '/orderconfirmation': (context) => OrderConfirmationPage(),
         '/chatbot': (context) => const ChatScreen(),
         '/profile': (context) => const ProfileScreen(),
+        
       },
     );
   }
@@ -28,9 +30,12 @@ class BookSelectionPage extends StatefulWidget {
   _BookSelectionPageState createState() => _BookSelectionPageState();
 }
 
+
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
+  
+  
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -50,6 +55,7 @@ class _LoginPageState extends State<LoginPage> {
       });
     }
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -62,10 +68,11 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Image.asset('images/logo.jpeg', width: 150, height: 150),
             TextField(
               controller: _usernameController,
               decoration: const InputDecoration(
-                labelText: 'Enter Your Name',
+                labelText: 'Enter Your Id',
               ),
             ),
             const SizedBox(height: 20.0),
@@ -108,10 +115,6 @@ class Book {
       this.isAddedToCart = false});
 }
 
-// class BookSelectionPage extends StatefulWidget {
-//   @override
-//   _BookSelectionPageState createState() => _BookSelectionPageState();
-// }
 
 class _BookSelectionPageState extends State<BookSelectionPage> {
   final TextEditingController _searchController = TextEditingController();
@@ -120,8 +123,19 @@ class _BookSelectionPageState extends State<BookSelectionPage> {
   TextEditingController _branchController = TextEditingController();
 
   List<Book> books = [
-    Book(title: 'Book 1', author: 'Author 1', imageUrl: 'assets/book1.jpg'),
-    Book(title: 'Book 2', author: 'Author 2', imageUrl: 'assets/book2.jpg'),
+    Book(title: 'Cryptography&Network Security', author: 'Author 1', imageUrl: 'images/img1.jpeg'),
+    Book(title: 'How innovation works', author: 'Author 2', imageUrl: 'images/img2.jpg'),
+    Book(title: 'Aptitude for interviews', author: 'Author 3', imageUrl: 'images/img3.jpg'),
+    Book(title: 'Quantitative aptitude', author: 'Author 4', imageUrl: 'images/img4.jpg'),
+    Book(title: 'Autometa and compiler Design', author: 'Author 5', imageUrl: 'images/img5.jpeg'),
+    Book(title: 'Computer Algorithms', author: 'Author 6', imageUrl: 'images/img6.jpeg'),
+    Book(title: 'Book Cover DesiGn Formula', author: 'Author 7', imageUrl: 'images/img7.jpeg'),
+    Book(title: 'cryptography', author: 'Author 8', imageUrl: 'images/img8.webp'),
+    Book(title: 'my book cover', author: 'Author 9', imageUrl: 'images/img9.jpeg'),
+    Book(title: 'Secrets in a silicon valley', author: 'Author 10', imageUrl: 'images/img10.jpeg'),
+    Book(title: 'Book cover', author: 'Author 11', imageUrl: 'images/img11.jpeg'),
+    Book(title: 'Book 12', author: 'Author 12', imageUrl: 'images/img12.jpeg'),
+    Book(title: 'Book 13', author: 'Author 13', imageUrl: 'images/img13.jpeg'),
     // Add more books as needed
   ];
 
@@ -213,6 +227,12 @@ class _BookSelectionPageState extends State<BookSelectionPage> {
               Navigator.pushNamed(context, '/chatbot');
             },
           ),
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              Navigator.pushNamed(context, '/settings');
+            },
+          ),
 
           IconButton(
             icon: const Icon(Icons.person_off_outlined),
@@ -252,12 +272,12 @@ class _BookSelectionPageState extends State<BookSelectionPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Container(
-                        height: 150,
+                        height: 147,
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: AssetImage(filteredBooks[index].imageUrl),
                             fit: BoxFit.cover,
-                          ),
+                          ), 
                         ),
                       ),
                       Padding(
@@ -348,23 +368,34 @@ class OTPVerificationPage extends StatefulWidget {
 
 class _OTPVerificationPageState extends State<OTPVerificationPage> {
   TextEditingController _otpController = TextEditingController();
-  String? _correctOTP;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _correctOTP = ModalRoute.of(context)!.settings.arguments as String;
-  }
 
   void _verifyOTP(BuildContext context) {
     String userOTP = _otpController.text;
 
-    String correctOTP = '123456';
-
-    if (userOTP == correctOTP) {
-      Navigator.pushReplacementNamed(context, '/orderconfirmation');
+    if (userOTP == '123456') {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => OrderConfirmationPage()),
+      );
     } else {
-      Navigator.pushReplacementNamed(context, '/orderconfirmation');
+      // Show error message
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Incorrect OTP'),
+            content: Text('The entered OTP is incorrect. Please try again.'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 
@@ -399,6 +430,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
     );
   }
 }
+
 
 class OrderConfirmationPage extends StatelessWidget {
   @override
